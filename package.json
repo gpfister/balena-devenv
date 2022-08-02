@@ -1,0 +1,41 @@
+{
+  "name": "balena-devenv",
+  "version": "0.1.0",
+  "description": "Base image for building Ubuntu based (20.04) dev containers for VS Code for Balena projects",
+  "main": "index.js",
+  "scripts": {
+    "start": "docker run --name balena-devenv-$npm_package_version-test -it gpfister/balena-devenv:$npm_package_version /bin/zsh",
+    "start:develop": "docker run --name balena-devenv-develop-test -it gpfister/balena-devenv:develop /bin/zsh",
+    "build": "npm run build:version && npm run build:target",
+    "build:version": "docker build --no-cache -t gpfister/balena-devenv:$npm_package_version .",
+    "build:latest": "docker build -t gpfister/balena-devenv:latest .",
+    "buildx": "npm run buildx:version && npm run buildx:latest",
+    "buildx:version": "docker buildx build --no-cache --platform linux/arm64,linux/amd64 -t gpfister/balena-devenv:$npm_package_version .",
+    "buildx:latest": "docker buildx build --platform linux/arm64,linux/amd64 -t gpfister/balena-devenv:latest .",
+    "build:develop": "docker build --no-cache -t gpfister/balena-devenv:develop .",
+    "buildx:develop": "docker buildx build --no-cache --platform linux/arm64,linux/amd64 -t gpfister/balena-devenv:develop .",
+    "scan": "docker scan -f Dockerfile gpfister/balena-devenv:$npm_package_version",
+    "push": "npm run push:version && npm run push:latest",
+    "push:version": "docker buildx build --platform linux/arm64,linux/amd64 -t gpfister/balena-devenv:$npm_package_version --push .",
+    "push:latest": "docker buildx build --platform linux/arm64,linux/amd64 -t gpfister/balena-devenv:latest --push ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gpfister/balena-devenv.git"
+  },
+  "keywords": [
+    "docker",
+    "dev",
+    "environment",
+    "devenv",
+    "typescript",
+    "balena",
+    "angular"
+  ],
+  "author": "Greg PFISTER",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/gpfister/balena-devenv/issues"
+  },
+  "homepage": "https://github.com/gpfister/balena-devenv#readme"
+}
